@@ -37,16 +37,18 @@ def main():
         print("This must be run as root, aborting")
         return -1
 
-    max_object_size = os.getenv("MAXIMUM_CACHE_OBJECT", '1024')
-    disk_cache_size = os.getenv("DISK_CACHE_SIZE", '5000')
+    max_object_size = os.getenv("MAX_CACHE_OBJECT", '200') # 200 MB
+    disk_cache_size = os.getenv("DISK_CACHE_SIZE", '20000') # 20 GB
     squid_directives_only = os.getenv("SQUID_DIRECTIVES_ONLY", False)
     arbitrary_squid_directives = os.getenv("SQUID_DIRECTIVES", None)
+    cache_replacement_policy = os.getenv("CACHE_REPLACEMENT_POLICY", 'heap LFUDA')
 
     squid_conf_entries = []
     squid_conf_entries.append('http_port 3129 intercept')
     squid_conf_entries.append('maximum_object_size %s MB' % max_object_size)
     squid_conf_entries.append('cache_dir ufs /var/cache/squid3 %s 16 256' %
                               disk_cache_size)
+    squid_conf_entries.append('cache_replacement_policy %s' % cache_replacement_policy)
 
     write_mode = 'w' if squid_directives_only else 'a'
     with open("/etc/squid3/squid.conf", write_mode) as conf_fh:

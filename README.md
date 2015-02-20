@@ -16,7 +16,6 @@ you to use a proxy. Then you can edit this recipe so that it cascades to the
 corporate proxy. Your containers will use the transparent proxy, which itself
 will pass along to the corporate proxy.
 
-
 ## How?
 
 You can use the squid proxy directly via docker and iptables rules, there is
@@ -36,7 +35,6 @@ After you stop you will need to cleanup the iptables rules:
 ```bash
 iptables -t nat -D PREROUTING -p tcp --dport 80 -j REDIRECT --to 3129 -w
 ```
-
 
 ### Using Fig
 
@@ -59,7 +57,6 @@ If you your tproxy instance goes down hard without cleaning up use the following
 iptables -t nat -D PREROUTING -p tcp --dport 80 -j REDIRECT --to 3129 -w
 ```
 
-
 Note: it will only affect HTTP traffic on port 80.
 
 Note: traffic originating from the host will not be affected, because
@@ -78,7 +75,6 @@ tweak the ACLs, or make sure that outside machines cannot access ports
 
 Note: It will be available to as a proxy on port 3128 on your local machine
 if you would like to setup local proxies yourself.
-
 
 ## What?
 
@@ -100,7 +96,6 @@ server IP address; and since Squid 3.3, it refuses to honor such requests.
 header to know where to send the request. You can check [CVE-2009-0801]
 for details.)
 
-
 ## Tuning
 
 The docker image can be tuned using environment variables.
@@ -110,7 +105,6 @@ The docker image can be tuned using environment variables.
 Squid has a maximum object cache size. Often when caching debian packages vs
 standard web content it is valuable to increase this size. Use the
 `-e MAX_CACHE_OBJECT=1024` to set the max object size (in MB)
-
 
 ### DISK_CACHE_SIZE
 
@@ -126,7 +120,7 @@ giving the user full control of squid.
 This will append any contents of the environment variable to squid.conf.
 It is expected that you will use multi-line block quote for the contents.
 
-### Persistent Cache
+## Persistent Cache
 
 Being docker when the instance exits the cached content immediately goes away
 when the instance stops. To avoid this you can use a mounted volume. The cache
