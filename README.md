@@ -27,7 +27,7 @@ information on tuning parameters see below.
 You can manually run these commands
 
 ```bash
-docker run --net host -d jpetazzo/squid-in-a-can
+docker run --net host -d robertogyn19/squid-in-a-can
 iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to 3129 -w
 ```
 
@@ -78,7 +78,7 @@ if you would like to setup local proxies yourself.
 
 ## What?
 
-The `jpetazzo/squid-in-a-can` container runs a really basic Squid3 proxy.
+The `robertogyn19/squid-in-a-can` container runs a really basic Squid3 proxy.
 Rather than writing my own configuration file, I patch the default Debian
 configuration. The main thing is to enable `intercept` on another port
 (here, 3129). To update the iptables for the intercept the command needs
