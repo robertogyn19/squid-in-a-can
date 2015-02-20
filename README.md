@@ -100,25 +100,33 @@ for details.)
 
 The docker image can be tuned using environment variables.
 
-### MAX_CACHE_OBJECT
+#### MAX_CACHE_OBJECT
 
 Squid has a maximum object cache size. Often when caching debian packages vs
 standard web content it is valuable to increase this size. Use the
-`-e MAX_CACHE_OBJECT=1024` to set the max object size (in MB)
+`-e MAX_CACHE_OBJECT=200` to set the max object size (in MB)
 
-### DISK_CACHE_SIZE
+#### DISK_CACHE_SIZE
 
 The squid disk cache size can be tuned. use
-`-e DISK_CACHE_SIZE=5000` to set the disk cache size (in MB)
+`-e DISK_CACHE_SIZE=20000` to set the disk cache size (in MB)
 
-### SQUID_DIRECTIVES_ONLY
+#### SQUID_DIRECTIVES_ONLY
 
 The contents of squid.conf will only be what's defined in SQUID_DIRECTIVES
 giving the user full control of squid.
 
-### SQUID_DIRECTIVES
+#### SQUID_DIRECTIVES
 This will append any contents of the environment variable to squid.conf.
 It is expected that you will use multi-line block quote for the contents.
+
+#### CACHE_REPLACEMENT_POLICY
+
+The cache replacement policy parameter determines which objects are evicted (replaced) when disk space is needed.
+  lru       : Squid's original list based LRU policy
+	heap GDSF : Greedy-Dual Size Frequency
+	heap LFUDA: Least Frequently Used with Dynamic Aging
+	heap LRU  : LRU policy implemented using a heap
 
 ## Persistent Cache
 
@@ -130,7 +138,12 @@ in your command line to enable persistent caching.
 
 ## Notes
 
-Ideas for improvement:
+### Cache common files
+
+This with the default variable is set to better cache files apt-get/rpm.
+To use this to cache the common files from internet/browser, change the CACHE_REPLACEMENT_POLICY to LRU.
+
+### Ideas for improvement:
 
 - easy chaining to an upstream proxy
 
